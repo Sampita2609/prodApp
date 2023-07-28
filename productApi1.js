@@ -117,7 +117,10 @@ app.get("/purchases", function (req, res, next) {
     else {
       let arr = result.rows;
       if (shop) arr = arr.filter((p) => p.shopid === +shop[2]);
-      if (product) arr = arr.filter((p) => p.productid === +product[2]);
+      if (product) {
+        let prArr=product.split(",");
+        arr = arr.filter((p) =>prArr.find((opt)=>+opt[2]===p.productid));
+      }
       if (sort === "QtyAsc")
         arr = arr.sort((pr1, pr2) => pr1.quantity - pr2.quantity);
       if (sort === "QtyDesc")
